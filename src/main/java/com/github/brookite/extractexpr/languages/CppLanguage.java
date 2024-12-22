@@ -24,4 +24,9 @@ public class CppLanguage extends LanguageInfo {
     public String[] ignoredOperators() {
         return new String[] {"lambda_expression", "co_await_expression", "delete_expression"};
     }
+
+    @Override
+    public String getName() {
+        return "cpp";
+    }
 }

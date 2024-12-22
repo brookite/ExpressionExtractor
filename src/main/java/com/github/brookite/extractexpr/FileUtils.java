@@ -32,6 +32,8 @@ public class FileUtils {
 
         sanitized = sanitized.replaceAll("[\\\\/:*?\"<>|]", "_");
 
+        sanitized = sanitized.replaceAll(" ", "_");
+
         sanitized = sanitized.replaceAll("[\\p{Cntrl}]", "").trim();
 
         int maxLength = 255;

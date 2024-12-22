@@ -24,4 +24,9 @@ public class PythonLanguage extends LanguageInfo {
     public String[] ignoredOperators() {
         return new String[] {"yield", "lambda"};
     }
+
+    @Override
+    public String getName() {
+        return "python";
+    }
 }

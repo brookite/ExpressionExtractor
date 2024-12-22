@@ -62,7 +62,7 @@ public class ParserCLI {
             }
         }
         for (SourceCodeParser.Node expr : expressions) {
-            File file = new File(outputDirFile, FileUtils.sanitizeFileName(expr.code()) + ".mt.ttl");
+            File file = new File(outputDirFile, FileUtils.sanitizeFileName(expr.code()) + "_" + expr.lang().getName() + ".mt.ttl");
             try {
                 FileOutputStream ostream = new FileOutputStream(file);
 

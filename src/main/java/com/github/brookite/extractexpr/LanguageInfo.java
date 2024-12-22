@@ -14,6 +14,7 @@ public abstract class LanguageInfo {
 
     public abstract String[] targetNodeNames();
     public abstract String[] ignoredOperators();
+    public abstract String getName();
 
     public TSLanguage getGrammar() {
         return grammar;
