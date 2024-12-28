@@ -71,6 +71,7 @@ public class ParserCLI {
             } catch (IOException | IllegalAccessException | InstantiationException | NoSuchMethodException |
                      InvocationTargetException | MeaningTreeException e) {
                 System.err.printf("%s parse failed%n", expr.code());
+                file.delete();
                 throw new RuntimeException(e);
             }
         }
@@ -79,6 +80,10 @@ public class ParserCLI {
     private static List<SourceCodeParser.Node> parseFiles(List<String> filePaths) {
         List<SourceCodeParser.Node> nodes = new ArrayList<>();
         for (String filePath : filePaths) {
+            if (!new File(filePath).exists()) {
+                System.err.println("File not found: " + filePath);
+                continue;
+            }
             System.err.println("Processing: " + filePath);
             Optional<LanguageInfo> lang = LanguageSupport.getParserByFileType(FileUtils.getExtension(filePath));
             if (lang.isPresent()) {
