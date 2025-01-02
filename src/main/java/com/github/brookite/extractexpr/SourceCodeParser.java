@@ -89,7 +89,7 @@ public class SourceCodeParser {
             return;
         }
         if (List.of(lang.targetNodeNames()).contains(node.getType()) && !List.of(lang.ignoredOperators()).contains(node.getType())) {
-            if (node.isError() || node.isNull()) {
+            if (node.hasError() || node.isNull()) {
                 return;
             }
             result.add(new Node(node, getCodePiece(source, node), source, lang));
