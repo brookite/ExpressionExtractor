@@ -36,7 +36,7 @@ public class FileUtils {
 
         sanitized = sanitized.replaceAll("[\\p{Cntrl}]", "").trim();
 
-        int maxLength = 255;
+        int maxLength = 96;
         if (sanitized.length() > maxLength) {
             sanitized = sanitized.substring(0, maxLength);
         }
