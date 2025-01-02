@@ -1,11 +1,8 @@
 package com.github.brookite.extractexpr;
 
-import org.vstu.meaningtree.exceptions.MeaningTreeException;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,15 +59,14 @@ public class ParserCLI {
             }
         }
         for (SourceCodeParser.Node expr : expressions) {
-            File file = new File(outputDirFile, FileUtils.sanitizeFileName(expr.code()) + "_" + expr.lang().getName() + ".mt.ttl");
+            File file = new File(outputDirFile, FileUtils.sanitizeFileName(expr.code) + "_" + expr.lang.getName() + ".mt.ttl");
             try {
                 FileOutputStream ostream = new FileOutputStream(file);
 
-                ASTSerializer.meaningTreeTtl(expr, expr.lang(), ostream);
+                ASTSerializer.meaningTreeTtl(expr, expr.lang, ostream);
                 ostream.close();
-            } catch (IOException | IllegalAccessException | InstantiationException | NoSuchMethodException |
-                     InvocationTargetException | MeaningTreeException e) {
-                System.err.printf("%s parse failed%n", expr.code());
+            } catch (Exception e) {
+                System.err.printf("%s parse failed in %s%n", expr.code, expr.fileName());
                 file.delete();
                 throw new RuntimeException(e);
             }
@@ -90,7 +86,8 @@ public class ParserCLI {
                 try {
                     SourceCodeParser.Node[] parsed = SourceCodeParser.collectExpressions(lang.get(), FileUtils.readUTF8(filePath));
                     for (SourceCodeParser.Node expr : parsed) {
-                        SourceCodeParser.AnalyzeResult analyzeResult = SourceCodeParser.analyzeNode(lang.get(), expr.tsNode());
+                        SourceCodeParser.AnalyzeResult analyzeResult = SourceCodeParser.analyzeNode(lang.get(), expr.tsNode);
+                        expr.setFilename(filePath);
                         if (analyzeResult.depth >= minExprDepth && analyzeResult.isSupported) {
                             nodes.add(expr);
                         }

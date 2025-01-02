@@ -15,7 +15,28 @@ public class SourceCodeParser {
         int depth;
     }
 
-    public record Node(TSNode tsNode, String code, String fullCode, LanguageInfo lang) {};
+    public static class Node {
+        public final TSNode tsNode;
+        public final String code;
+        public final String fullCode;
+        public final LanguageInfo lang;
+        private String fileName = "unknown file";
+
+        public Node(TSNode tsNode, String code, String fullCode, LanguageInfo lang) {
+            this.tsNode = tsNode;
+            this.code = code;
+            this.fullCode = fullCode;
+            this.lang = lang;
+        }
+
+        public void setFilename(String name) {
+            fileName = name;
+        }
+
+        public String fileName() {
+            return fileName;
+        }
+    };
 
     public static AnalyzeResult analyzeNode(LanguageInfo lang, TSNode node) {
         AnalyzeResult result = new AnalyzeResult();
@@ -24,6 +45,10 @@ public class SourceCodeParser {
     }
 
     private static void performNodeAnalysis(TSNode node, LanguageInfo info, AnalyzeResult result, int depth) {
+        if (node.isNull()) {
+            return;
+        }
+
         if (List.of(info.ignoredOperators()).contains(node.getType())) {
             result.isSupported = false;
         }
@@ -45,11 +70,10 @@ public class SourceCodeParser {
         parser.setLanguage(grammar);
         TSTree tree = parser.parseString(null, source);
         List<Node> nodes = new ArrayList<>();
-        if (!tree.getRootNode().hasError()) {
-            collectNodesByType(tree.getRootNode(), nodes, lang, source);
-        } else {
-            System.err.println("Parsing failed. Found syntax errors");
+        if (tree.getRootNode().hasError()) {
+            System.err.println("Warning: This file contains syntax errors. It may cause parsing errors");
         }
+        collectNodesByType(tree.getRootNode(), nodes, lang, source);
         return nodes.toArray(new Node[0]);
     }
 
@@ -61,7 +85,13 @@ public class SourceCodeParser {
     }
 
     private static void collectNodesByType(TSNode node, List<Node> result, LanguageInfo lang, String source) {
+        if (node.isNull()) {
+            return;
+        }
         if (List.of(lang.targetNodeNames()).contains(node.getType()) && !List.of(lang.ignoredOperators()).contains(node.getType())) {
+            if (node.isError() || node.isNull()) {
+                return;
+            }
             result.add(new Node(node, getCodePiece(source, node), source, lang));
         }
 

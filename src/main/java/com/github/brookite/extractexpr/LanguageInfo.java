@@ -28,6 +28,6 @@ public abstract class LanguageInfo {
             put("expressionMode", "true");
             put("disableCompoundComparisonConversion", "true");
         }});
-        return translator.getMeaningTree(node.code());
+        return translator.getMeaningTree(node.code);
     }
 }
