@@ -66,6 +66,7 @@ public class ParserCLI {
                 ASTSerializer.meaningTreeTtl(expr, expr.lang, ostream);
                 ostream.close();
             } catch (Exception e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
                 System.err.printf("%s parse failed in %s%n", expr.code, expr.fileName());
                 file.delete();
                 throw new RuntimeException(e);
