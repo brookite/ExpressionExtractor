@@ -30,7 +30,7 @@ public class FileUtils {
 
         String sanitized = Normalizer.normalize(name, Normalizer.Form.NFKC);
 
-        sanitized = sanitized.replaceAll("[\\\\/:*?\"<>|]", "_");
+        sanitized = sanitized.replaceAll("[^a-zA-Z0-9]", "_");
 
         sanitized = sanitized.replaceAll(" ", "_");
 
