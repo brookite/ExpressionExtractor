@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ParserCLI {
-    public static final int minExprDepth = 2;
+    public static final int minExprDepth = 3;
 
     public static void main(String[] args) {
         List<String> filePaths = new ArrayList<>();
@@ -65,6 +65,7 @@ public class ParserCLI {
 
                 ASTSerializer.meaningTreeTtl(expr, expr.lang, ostream);
                 ostream.close();
+                System.err.println("Created question: " + file);
             } catch (Exception e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
                 System.err.printf("%s parse failed in %s%n", expr.code, expr.fileName());
