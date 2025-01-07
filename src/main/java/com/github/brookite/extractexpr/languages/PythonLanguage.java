@@ -16,7 +16,7 @@ public class PythonLanguage extends LanguageInfo {
         return new String[] {
                 "binary_operator", "comparison_operator", "unary_operator", "call", "not_operator",
                 "attribute", "subscript", "boolean_operator",
-                "parenthesized_expression", "conditional_expression", "named_expression",
+                "parenthesized_expression", "conditional_expression", "named_expression"
         };
     }
 

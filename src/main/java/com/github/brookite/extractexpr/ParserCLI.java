@@ -63,6 +63,7 @@ public class ParserCLI {
             try {
                 FileOutputStream ostream = new FileOutputStream(file);
 
+                System.err.println("Creating from expression: " + expr.code);
                 ASTSerializer.meaningTreeTtl(expr, expr.lang, ostream);
                 ostream.close();
                 System.err.println("Created question: " + file);
