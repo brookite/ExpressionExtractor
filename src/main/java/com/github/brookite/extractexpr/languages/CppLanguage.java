@@ -16,7 +16,7 @@ public class CppLanguage extends LanguageInfo {
                 "binary_expression", "unary_expression", "call_expression",
                 "assignment_expression", "subscript_expression", "field_expression",
                 "new_expression", "conditional_expression", "pointer_expression",
-                "cast_expression", "qualified_identifier", "sizeof_expression", "comma_expression"
+                "cast_expression", "qualified_identifier", "sizeof_expression", "offsetof_expression", "comma_expression"
         };
     }
 

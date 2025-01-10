@@ -22,7 +22,8 @@ public class PythonLanguage extends LanguageInfo {
 
     @Override
     public String[] ignoredOperators() {
-        return new String[] {"yield", "lambda"};
+        return new String[] {"yield", "lambda", "comment", "list_comprehension",
+                "generator_expression", "set_comprehension", "dict_comprehension"};
     }
 
     @Override
