@@ -21,7 +21,7 @@ public class JavaLanguage extends LanguageInfo {
 
     @Override
     public String[] ignoredOperators() {
-        return new String[] {"lambda_expression"};
+        return new String[] {"lambda_expression", "comment"};
     }
 
     @Override

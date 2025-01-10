@@ -22,7 +22,7 @@ public class CppLanguage extends LanguageInfo {
 
     @Override
     public String[] ignoredOperators() {
-        return new String[] {"lambda_expression", "co_await_expression", "delete_expression"};
+        return new String[] {"lambda_expression", "co_await_expression", "delete_expression", "comment"};
     }
 
     @Override
