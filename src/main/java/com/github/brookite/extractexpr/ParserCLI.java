@@ -1,8 +1,13 @@
 package com.github.brookite.extractexpr;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +15,10 @@ import java.util.Optional;
 public class ParserCLI {
     public static final int minExprDepth = 3;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         List<String> filePaths = new ArrayList<>();
         String domain = null;
+        String repoInfo = null;
         String outputDir = null;
         boolean parsingFiles = true;
 
@@ -24,6 +30,8 @@ public class ParserCLI {
 
             if (parsingFiles) {
                 filePaths.add(arg);
+            } else if (repoInfo == null) {
+                repoInfo = arg;
             } else if (domain == null) {
                 domain = arg;
             } else if (outputDir == null) {
@@ -49,6 +57,16 @@ public class ParserCLI {
             System.exit(1);
         }
 
+        SourceCodeRepositoryInfo repositoryInfo = null;
+        if (new File(repoInfo).exists()) {
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                    .disableHtmlEscaping()
+                    .setPrettyPrinting()
+                    .create();
+            repositoryInfo = gson.fromJson(Files.readString(Path.of(repoInfo)), SourceCodeRepositoryInfo.class);
+        }
+
         List<SourceCodeParser.Node> expressions = parseFiles(filePaths);
         File outputDirFile = new File(outputDir);
         if (!outputDirFile.isDirectory()) {
@@ -64,7 +82,7 @@ public class ParserCLI {
                 FileOutputStream ostream = new FileOutputStream(file);
 
                 System.err.println("Creating from expression: " + expr.code);
-                ASTSerializer.meaningTreeTtl(expr, expr.lang, ostream);
+                ASTSerializer.meaningTreeTtl(expr, expr.lang, repositoryInfo, ostream);
                 ostream.close();
                 System.err.println("Created question: " + file);
             } catch (Exception e) {
