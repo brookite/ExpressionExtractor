@@ -29,7 +29,7 @@ public abstract class LanguageInfo {
             put("disableCompoundComparisonConversion", "true");
         }});
         var result = translator.tryGetMeaningTree(node.code);
-        if (result.getLeft().equals(true)) {
+        if (result.getLeft()) {
             return result.getRight();
         } else {
             return null;

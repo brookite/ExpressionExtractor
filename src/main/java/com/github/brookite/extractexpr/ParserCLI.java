@@ -2,6 +2,7 @@ package com.github.brookite.extractexpr;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.jena.base.Sys;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -82,9 +83,14 @@ public class ParserCLI {
                 FileOutputStream ostream = new FileOutputStream(file);
 
                 System.err.println("Creating from expression: " + expr.code);
-                ASTSerializer.meaningTreeTtl(expr, expr.lang, repositoryInfo, ostream);
+                boolean res = ASTSerializer.meaningTreeTtl(expr, expr.lang, repositoryInfo, ostream);
                 ostream.close();
-                System.err.println("Created question: " + file);
+                if (!res) {
+                    file.delete();
+                    System.err.println("Creating meaning tree failed. Unsupported conversion");
+                } else {
+                    System.err.println("Created question: " + file);
+                }
             } catch (Exception e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
                 System.err.printf("%s parse failed in %s%n", expr.code, expr.fileName());

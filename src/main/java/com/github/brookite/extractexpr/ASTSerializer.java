@@ -9,15 +9,21 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 
 public class ASTSerializer {
-    public static void meaningTreeTtl(SourceCodeParser.Node node, LanguageInfo info, SourceCodeRepositoryInfo repo, OutputStream stream) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException {
+    public static boolean meaningTreeTtl(SourceCodeParser.Node node, LanguageInfo info, SourceCodeRepositoryInfo repo, OutputStream stream) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException {
         if (repo != null) {
             stream.write(String.format("# REPO_NAME %s\n", repo.name).getBytes(StandardCharsets.UTF_8));
             stream.write(String.format("# LICENSE %s\n", repo.license).getBytes(StandardCharsets.UTF_8));
             stream.write(String.format("# REPO_URL %s\n", repo.url).getBytes(StandardCharsets.UTF_8));
         }
 
-        RDFSerializer rdfSerializer = new RDFSerializer();
-        Model model = rdfSerializer.serialize(info.createExpressionMeaningTree(node).getRootNode());
-        model.write(stream, "TTL");
+        var result = info.createExpressionMeaningTree(node);
+        if (result != null) {
+            RDFSerializer rdfSerializer = new RDFSerializer();
+            Model model = rdfSerializer.serialize(result.getRootNode());
+            model.write(stream, "TTL");
+            return true;
+        } else {
+            return false;
+        }
     }
 }
