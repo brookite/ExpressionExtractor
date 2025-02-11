@@ -17,7 +17,7 @@ public class SourceCodeParser {
 
     public static class Node {
         public final TSNode tsNode;
-        public final String code;
+        public String code;
         public final String fullCode;
         public final LanguageInfo lang;
         private String fileName = "unknown file";

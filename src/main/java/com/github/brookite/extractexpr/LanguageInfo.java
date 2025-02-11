@@ -23,7 +23,7 @@ public abstract class LanguageInfo {
     public MeaningTree createExpressionMeaningTree(SourceCodeParser.Node node) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         // Only expression support
         LanguageTranslator translator = mtLang.createTranslator(new HashMap<>() {{
-            put("skipErrors", "true");
+            put("skipErrors", "false");
             put("translationUnitMode", "false");
             put("expressionMode", "true");
             put("disableCompoundComparisonConversion", "true");
