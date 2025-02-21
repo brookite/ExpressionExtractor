@@ -6,7 +6,6 @@ import com.github.brookite.extractexpr.patches.CppPointerFixPatch;
 import org.treesitter.TreeSitterCpp;
 import org.vstu.meaningtree.MeaningTree;
 import org.vstu.meaningtree.SupportedLanguage;
-import org.vstu.meaningtree.nodes.expressions.other.AssignmentExpression;
 import org.vstu.meaningtree.nodes.statements.assignments.AssignmentStatement;
 
 import java.lang.reflect.InvocationTargetException;

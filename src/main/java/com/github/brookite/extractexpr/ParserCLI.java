@@ -2,7 +2,6 @@ package com.github.brookite.extractexpr;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.jena.base.Sys;
 
 import java.io.File;
 import java.io.FileOutputStream;
