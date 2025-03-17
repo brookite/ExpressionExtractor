@@ -74,6 +74,11 @@
             <groupId>com.github.bardoor</groupId>
             <artifactId>meaning_tree</artifactId>
             <version>expr-stable-SNAPSHOT</version>
+            <version>54c4e9de73</version>
+        <dependency>
+            <groupId>io.github.bonede</groupId>
+            <artifactId>tree-sitter</artifactId>
+            <version>0.24.5</version>
         </dependency>
 
     </dependencies>

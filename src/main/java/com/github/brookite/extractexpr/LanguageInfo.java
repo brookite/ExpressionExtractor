@@ -28,7 +28,7 @@ public abstract class LanguageInfo {
             put("expressionMode", "true");
             put("disableCompoundComparisonConversion", "true");
         }});
-        var result = translator.tryGetMeaningTree(node.code);
+        var result = translator.tryGetMeaningTree(node.tsNode, node.fullCode);
         if (result.getLeft()) {
             return result.getRight();
         } else {

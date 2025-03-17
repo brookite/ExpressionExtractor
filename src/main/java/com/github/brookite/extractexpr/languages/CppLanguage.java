@@ -2,7 +2,6 @@ package com.github.brookite.extractexpr.languages;
 
 import com.github.brookite.extractexpr.LanguageInfo;
 import com.github.brookite.extractexpr.SourceCodeParser;
-import com.github.brookite.extractexpr.patches.CppPointerFixPatch;
 import org.treesitter.TreeSitterCpp;
 import org.vstu.meaningtree.MeaningTree;
 import org.vstu.meaningtree.SupportedLanguage;
@@ -33,7 +32,6 @@ public class CppLanguage extends LanguageInfo {
 
     @Override
     public MeaningTree createExpressionMeaningTree(SourceCodeParser.Node node) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        node.code = CppPointerFixPatch.fixString(node.tsNode, node.code);
         MeaningTree mt = super.createExpressionMeaningTree(node);
         if (mt.getRootNode() instanceof AssignmentStatement assign) {
             mt.changeRoot(assign.getRValue());
