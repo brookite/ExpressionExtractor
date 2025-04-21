@@ -33,7 +33,7 @@ public class CppLanguage extends LanguageInfo {
     @Override
     public MeaningTree createExpressionMeaningTree(SourceCodeParser.Node node) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         MeaningTree mt = super.createExpressionMeaningTree(node);
-        if (mt.getRootNode() instanceof AssignmentStatement assign) {
+        if (mt != null && mt.getRootNode() instanceof AssignmentStatement assign) {
             mt.changeRoot(assign.getRValue());
         }
         return mt;
