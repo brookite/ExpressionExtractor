@@ -1,5 +1,7 @@
 package com.github.brookite.extractexpr;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.treesitter.TSLanguage;
 import org.treesitter.TSNode;
 import org.treesitter.TSParser;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SourceCodeParser {
+    private static final Logger log = LogManager.getLogger(SourceCodeParser.class);
+
     public static class AnalyzeResult {
         boolean isSupported = true;
         int depth;
@@ -71,7 +75,7 @@ public class SourceCodeParser {
         TSTree tree = parser.parseString(null, source);
         List<Node> nodes = new ArrayList<>();
         if (tree.getRootNode().hasError()) {
-            System.err.println("Warning: This file contains syntax errors. It may cause parsing errors");
+            log.warn("Warning: This file contains syntax errors. It may cause parsing errors");
         }
         collectNodesByType(tree.getRootNode(), nodes, lang, source);
         return nodes.toArray(new Node[0]);

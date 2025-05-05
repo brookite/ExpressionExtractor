@@ -2,6 +2,8 @@ package com.github.brookite.extractexpr;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +16,7 @@ import java.util.Optional;
 
 public class ParserCLI {
     public static final int minExprDepth = 3;
+    private static final Logger log = LogManager.getLogger(ParserCLI.class);
 
     public static void main(String[] args) throws IOException {
         List<String> filePaths = new ArrayList<>();
@@ -37,23 +40,23 @@ public class ParserCLI {
             } else if (outputDir == null) {
                 outputDir = arg;
             } else {
-                System.err.println("Unexpected argument: " + arg);
+                log.error("Unexpected argument: " + arg);
                 System.exit(1);
             }
         }
 
         if (filePaths.isEmpty()) {
-            System.err.println("Error: No input files provided.");
+            log.error("Error: No input files provided.");
             System.exit(1);
         }
 
         if (domain == null) {
-            System.err.println("Error: No domain provided.");
+            log.error("Error: No domain provided.");
             System.exit(1);
         }
 
         if (outputDir == null) {
-            System.err.println("Error: No output directory provided.");
+            log.error("Error: No output directory provided.");
             System.exit(1);
         }
 
@@ -72,7 +75,7 @@ public class ParserCLI {
         if (!outputDirFile.isDirectory()) {
             boolean mkdirRes = outputDirFile.mkdirs();
             if (!mkdirRes) {
-                System.err.println("Error: Failed to create output directory.");
+                log.error("Error: Failed to create output directory.");
                 System.exit(1);
             }
         }
@@ -81,18 +84,18 @@ public class ParserCLI {
             try {
                 FileOutputStream ostream = new FileOutputStream(file);
 
-                System.err.println("Creating from expression: " + expr.code);
+                log.info("Creating from expression: " + expr.code);
                 boolean res = ASTSerializer.meaningTreeTtl(expr, expr.lang, repositoryInfo, ostream);
                 ostream.close();
                 if (!res) {
                     file.delete();
-                    System.err.println("Creating meaning tree failed. Unsupported conversion");
+                    log.warn("Creating meaning tree failed. Unsupported conversion");
                 } else {
-                    System.err.println("Created question: " + file);
+                    log.info("Created question: " + file);
                 }
             } catch (Exception e) {
-                System.err.println(e.getClass().getName() + ": " + e.getMessage());
-                System.err.printf("%s parse failed in %s%n", expr.code, expr.fileName());
+                log.error("Parser exception {} with msg: {}", e.getClass().getName(), e.getMessage());
+                log.error("{} parse failed in {}", expr.code, expr.fileName());
                 file.delete();
                 throw new RuntimeException(e);
             }
@@ -103,10 +106,10 @@ public class ParserCLI {
         List<SourceCodeParser.Node> nodes = new ArrayList<>();
         for (String filePath : filePaths) {
             if (!new File(filePath).exists()) {
-                System.err.println("File not found: " + filePath);
+                log.error("File not found: " + filePath);
                 continue;
             }
-            System.err.println("Processing: " + filePath);
+            log.error("Processing: " + filePath);
             Optional<LanguageInfo> lang = LanguageSupport.getParserByFileType(FileUtils.getExtension(filePath));
             if (lang.isPresent()) {
                 try {
