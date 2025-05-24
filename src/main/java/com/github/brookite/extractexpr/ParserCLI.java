@@ -83,7 +83,6 @@ public class ParserCLI {
             File file = new File(outputDirFile, FileUtils.sanitizeFileName(expr.code) + "_" + expr.lang.getName() + ".mt.ttl");
             try {
                 FileOutputStream ostream = new FileOutputStream(file);
-
                 log.info("Creating from expression: " + expr.code);
                 boolean res = ASTSerializer.meaningTreeTtl(expr, expr.lang, repositoryInfo, ostream);
                 ostream.close();
@@ -97,7 +96,6 @@ public class ParserCLI {
                 log.error("Parser exception {} with msg: {}", e.getClass().getName(), e.getMessage());
                 log.error("{} parse failed in {}", expr.code, expr.fileName());
                 file.delete();
-                throw new RuntimeException(e);
             }
         }
     }
@@ -122,7 +120,7 @@ public class ParserCLI {
                         }
                     }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    log.error("Error parsing file: " + filePath, e);
                 }
 
             }

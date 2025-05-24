@@ -19,7 +19,7 @@ public class ASTSerializer {
         var result = info.createExpressionMeaningTree(node);
         if (result != null) {
             RDFSerializer rdfSerializer = new RDFSerializer();
-            Model model = rdfSerializer.serialize(result.getRootNode());
+            Model model = rdfSerializer.serialize(result);
             model.write(stream, "TTL");
             return true;
         } else {
