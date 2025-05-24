@@ -84,7 +84,8 @@
         <dependency>
             <groupId>com.github.bardoor</groupId>
             <artifactId>meaning_tree</artifactId>
-            <version>54c4e9de73</version>
+            <version>5253af8522</version>
+        </dependency>
         <dependency>
             <groupId>io.github.bonede</groupId>
             <artifactId>tree-sitter</artifactId>
