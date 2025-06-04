@@ -84,7 +84,7 @@
         <dependency>
             <groupId>com.github.bardoor</groupId>
             <artifactId>meaning_tree</artifactId>
-            <version>da2940a797</version>
+            <version>9775a0bec7</version>
         </dependency>
         <dependency>
             <groupId>io.github.bonede</groupId>
